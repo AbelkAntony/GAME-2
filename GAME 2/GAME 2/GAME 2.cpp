@@ -134,7 +134,7 @@ private:
 	//Game story display function
 	void DisplayGameStory()
 	{
-		cout << "\n\n\n\n ";
+		cout << "\n\n\n\nMr/Ms " << player->GetName() << ",\n your village is conquired by a Monster and you need to fight with them and defeat the monsters\n ";
 		//getchar();
 		//system("clear");
 	}
@@ -154,31 +154,31 @@ private:
 			enemy = new Enemy("MONSTER LEVEL 1 ", 50, 40, 20, 20);
 			break;
 		case 2:
-			enemy = new Enemy("MONSTER LEVEL 2 ", 100, 50, 30, 30);
+			enemy = new Enemy("MONSTER LEVEL 2 ", 75, 45, 25, 25);
 			break;
 		case 3:
-			enemy = new Enemy("MONSTER LEVEL 3 ", 150, 60, 40, 40);
+			enemy = new Enemy("MONSTER LEVEL 3 ", 100, 50, 30, 30);
 			break;
 		case 4:
-			enemy = new Enemy("MONSTER LEVEL 4 ", 200, 70, 50, 50);
+			enemy = new Enemy("MONSTER LEVEL 4 ", 125, 55, 35, 35);
 			break;
 		case 5:
-			enemy = new Enemy("MONSTER LEVEL 5 ", 250, 80, 60, 60);
+			enemy = new Enemy("MONSTER LEVEL 5 ", 130, 60, 40, 40);
 			break;
 		case 6:
-			enemy = new Enemy("MURLOCS BOSS", 300, 90, 70, 70);
+			enemy = new Enemy("MURLOCS BOSS", 150, 65, 45, 45);
 			break;
 		}
 	}
 	//map
-	// void Map(int stage)
-	// {
-		// 	if(stage==1)
-		// 	{
-		// 	cout<<"\nhi chef\nYou are far away from your final destination. You just completed your stage 1 of 6 .  "	
+	void Map(int stage)
+	{
+		if (stage != 1 && stage != 6)
+		{
+			cout << "\nhi chef\nYou are far away from your final destination. You just completed your stage " << stage - 1 << " of 6 .\nIn this stage you have to defeat " << stage << " enemies of level " << stage << "\n All the best ";
 
-		// 	}
-	// }
+		}
+	}
 	//Player reward
 	void PlayerReward(int stage)
 	{
@@ -310,21 +310,27 @@ public:
 	{
 		//calling display game title function
 		DisplayGameTitle();
-		//display the story of the game
-		DisplayGameStory();
 		//calling function for creating player
 		PlayerCreation();
+		//display the story of the game
+		DisplayGameStory();
 	}
 	void Play()
 	{
-
 		while (stage <= 6)
 		{
+
 			cout << "\nSTAGE : " << stage << "*******************************************************";
+			Map(stage);
+			cout << "\nDO YOU WANT TO START GAME\n1. YES\n2. NO \nENTER YOUR CHOICE : ";
+			cin >> option;
+			if (option == 2)
+				break;
 			for (int i = 1; i <= stage; i++)
 			{
 				cout << "\nBATTLE STARTS";
 				Battle(stage);
+				delete enemy;
 			}
 			if (player->GetHealth() > 0)
 			{
@@ -333,6 +339,7 @@ public:
 			}
 			stage++;
 		}
+		delete player;
 	}
 };
 
