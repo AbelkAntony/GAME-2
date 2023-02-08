@@ -9,17 +9,17 @@ private:
 	string name;
 	int currentHealth;
 	int maxHealth;
-	int damagePoints;
+	int damagePoint;
 	int defence;
 	int healing;
 public:
 	//constructor
-	Character(string _name, int _health, int _damagePoints, int _defence, int _healing)
+	Character(string _name, int _health, int _damagePoint, int _defence, int _healing)
 	{
 		name = _name;
 		currentHealth = _health;
 		maxHealth = _health;
-		damagePoints = _damagePoints;
+		damagePoint = _damagePoint;
 		defence = _defence;
 		healing = _healing;
 	}
@@ -27,26 +27,30 @@ public:
 	//Getter function
 	string GetName() { return name; }
 	int GetHealth() { return currentHealth; }
-	int GetDamagePoints() { return damagePoints; }
+	int GetDamagePoint() { return damagePoint; }
 	int GetDefence() { return defence; }
 	int GetHealing() { return healing; }
+	int GetMaxHealth() { return maxHealth; }
 
 	//Setter functons
-
+	void SetHealth(int _health) { currentHealth = _health; }
+	void SetMaxHealth(int _health) { maxHealth = _health; }
+	void SetDamagePoint(int newDamagePoint) { damagePoint = newDamagePoint; }
+	void SetDefence(int newDefence) { defence = newDefence; }
 
 	// functions
 	void DisplayStatus()
 	{
 		cout << "\n\nNAME			: " << name;
 		cout << "\nHEALTH			: " << currentHealth;
-		cout << "\nDAMAGE POINT	: " << damagePoints;
+		cout << "\nDAMAGE POINT	: " << damagePoint;
 		cout << "\nDEFENCE			: " << defence;
 		cout << "\nHEALING			: " << healing;
 
 	}
 	void TakeDamage(Character* opponent)
 	{
-		int damage = (opponent->GetDamagePoints() - defence);
+		int damage = (opponent->GetDamagePoint() - defence);
 		currentHealth = currentHealth - damage;
 		cout << endl << endl << opponent->GetName() << " CAUSE DAMAGE " << damage;
 	}
@@ -83,6 +87,9 @@ public:
 	{
 
 	}
+	void HealthReset() { SetHealth(GetMaxHealth()); }
+	void UpdateDamagePoint(int newDamagePoint) { SetDamagePoint(newDamagePoint); }
+	void UpdateDefence(int newDefence) { SetDefence(newDefence); }
 
 };
 
@@ -111,7 +118,7 @@ private:
 	//variables
 	int option;
 	int battleRound;
-	//int level=1;
+	int stage = 1;
 	Player* player;
 	Enemy* enemy;
 	string name;
@@ -139,9 +146,77 @@ private:
 		player = new Player(name);
 	}
 	//Enemy character creation
-	void EnemyCreation()
+	void EnemyCreation(int stage)
 	{
-		enemy = new Enemy("MONSTER MAC", 50, 40, 20, 20);
+		switch (stage)
+		{
+		case 1:
+			enemy = new Enemy("MONSTER LEVEL 1 ", 50, 40, 20, 20);
+			break;
+		case 2:
+			enemy = new Enemy("MONSTER LEVEL 2 ", 100, 50, 30, 30);
+			break;
+		case 3:
+			enemy = new Enemy("MONSTER LEVEL 3 ", 150, 60, 40, 40);
+			break;
+		case 4:
+			enemy = new Enemy("MONSTER LEVEL 4 ", 200, 70, 50, 50);
+			break;
+		case 5:
+			enemy = new Enemy("MONSTER LEVEL 5 ", 250, 80, 60, 60);
+			break;
+		case 6:
+			enemy = new Enemy("MURLOCS BOSS", 300, 90, 70, 70);
+			break;
+		}
+	}
+	//map
+	// void Map(int stage)
+	// {
+		// 	if(stage==1)
+		// 	{
+		// 	cout<<"\nhi chef\nYou are far away from your final destination. You just completed your stage 1 of 6 .  "	
+
+		// 	}
+	// }
+	//Player reward
+	void PlayerReward(int stage)
+	{
+		cout << endl << player->GetName() << " GOT ";
+		switch (stage)
+		{
+		case 1:
+			cout << "MAP ";
+			break;
+		case 2:
+		{
+			cout << "SWORD YOUR DAMAGE POINT INCREASE BY 20% ";
+			int newDamagePoint = player->GetDamagePoint() + (player->GetDamagePoint() * .2);
+			player->UpdateDamagePoint(newDamagePoint);
+			break;
+		}
+		case 3:
+		{
+			cout << "SHEILD YOUR DEFENCE INCREASE BY 20% ";
+			int newDefence = player->GetDefence() + (player->GetDefence() * .2);
+			player->UpdateDefence(newDefence);
+			break;
+		}
+		case 4:
+		{
+			cout << "ARMOR YOUR DEFENCE INCREASE BY 30%";
+			int newDefence = player->GetDefence() + (player->GetDefence() * .3);
+			player->UpdateDefence(newDefence);
+			break;
+		}
+		case 5:
+		{
+			cout << "BOW YOUR DAMAGE POINT INCREASE BY 30%";
+			int newDamagePoint = player->GetDamagePoint() + (player->GetDamagePoint() * .2);
+			player->UpdateDamagePoint(newDamagePoint);
+			break;
+		}
+		}
 	}
 	//Display player and enemy status
 	void DisplayAllStatus()
@@ -154,20 +229,20 @@ private:
 	void PlayerTurn()
 	{
 		//ask user input
-		//if player choice is attack 
-		//enemy take damage(player get damage value)
-		//else if player choice heal
-		//check the player health and heal
 		cout << endl << endl << player->GetName() << "'s TURN";
 		cout << "\n\n1. ATTACK\n2. HEAL";
 		cout << "\nENETR YOUR CHOISE : ";
 		cin >> option;
 		switch (option)
 		{
+			//if player choice is attack 
 		case 1:
+			//enemy take damage(player get damage value)
 			enemy->TakeDamage(player);
 			break;
+			//else if player choice heal
 		case 2:
+			//check the player health and heal
 			player->GetHealed();
 			break;
 		}
@@ -175,17 +250,19 @@ private:
 	void EnemyTurn()
 	{
 		cout << endl << endl << enemy->GetName() << "'s TURN";
+		//enemy randomly choose attack or heal
 		option = 1 + (rand() % (2 - 1 + 1));
 		switch (option)
 		{
+			//if enemy choice is attack
 		case 1:
 			player->TakeDamage(enemy);
 			break;
+			//else if enemy choice is heal
 		case 2:
 			enemy->GetHealed();
 			break;
-		default:
-			cout << "error";
+
 		}
 	}
 	//Game result
@@ -199,30 +276,12 @@ private:
 		{
 			cout << "\nYOU WIN THE BATTLE";
 		}
-		else
-		{
-			cout << "error";
-		}
 	}
-
-public:
-	BattleWithMonster()
+	//stage wise battle
+	void Battle(int stage)
 	{
-		//calling display game title function
-		DisplayGameTitle();
-		//display the story of the game
-		DisplayGameStory();
-		//calling function for creating player
-		PlayerCreation();
-	}
-	void Play()
-	{
-
-		//set default level =1
-		//for i = 1 i<=level i++
-
 		//create enemy character
-		EnemyCreation();
+		EnemyCreation(stage);
 		//game loop
 		battleRound = 1;
 		while (player->GetHealth() > 0 && enemy->GetHealth() > 0)
@@ -238,21 +297,43 @@ public:
 			DisplayAllStatus();
 			//enemy turn
 			EnemyTurn();
-
 			//Turn(enemy , player);
-				//enemy randomly choose attack or heal
-				//if enemy choice is attack
-					//player take damage(enemy get damge value)
-				//else if enemy choice is heal
-					//check the enemy health and heal
-				//level++;
 			battleRound++;
 		}
 		GameResult();
+		if (player->GetHealth() <= 0)
+			return;
 	}
 
+public:
+	BattleWithMonster()
+	{
+		//calling display game title function
+		DisplayGameTitle();
+		//display the story of the game
+		DisplayGameStory();
+		//calling function for creating player
+		PlayerCreation();
+	}
+	void Play()
+	{
 
-
+		while (stage <= 6)
+		{
+			cout << "\nSTAGE : " << stage << "*******************************************************";
+			for (int i = 1; i <= stage; i++)
+			{
+				cout << "\nBATTLE STARTS";
+				Battle(stage);
+			}
+			if (player->GetHealth() > 0)
+			{
+				PlayerReward(stage);
+				player->HealthReset();
+			}
+			stage++;
+		}
+	}
 };
 
 int main()
@@ -261,6 +342,5 @@ int main()
 	//class for game function and loop
 	BattleWithMonster newGame;
 	newGame.Play();
-
 	return 0;
 }
