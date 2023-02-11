@@ -57,7 +57,11 @@ public:
 	}
 	virtual void TakeDamage(int _damage)
 	{
-		if(_damage>0)
+		if(_damage<0)
+		{
+			cout<<endl<<endl<<" CAUSE DAMAGE 0 damage";
+		}	
+		else 
 		{
 		int damage =(_damage- defence);
 		currentHealth = currentHealth - damage;
@@ -109,13 +113,13 @@ public:
 	{
 		if(stage>=5)
 		{
-			if(Percentage()>10)
+			if(Percentage()<=10)
 			{
 				damage = GetDamagePoint() + (GetDamagePoint()*.2); 
 				cout<<"\nCRITICAL HIT";	
 				return damage;
 			}
-			else if(Percentage()>10)	
+			else if(Percentage()<=10)	
 			{
 				cout<<"\nLIFE STEAL";
 				int heal = GetDamagePoint()*.5;
@@ -133,7 +137,7 @@ public:
 					}
 				return GetDamagePoint();
 			}
-			else if(Percentage()>10)
+			else if(Percentage()<=10)
 			{
 				cout<<"\nRANGED ATTACK ACTIVATED";
 				playerRangedAttack.isAttackActivated = 0;
@@ -145,13 +149,13 @@ public:
 		}
 		else if(stage>=4)
 		{
-			if(Percentage()>10)
+			if(Percentage()<=10)
 			{
 				damage = GetDamagePoint() + (GetDamagePoint()*.2); 
 				cout<<"\nCRITICAL HIT";	
 				return damage;
 			}
-			else if(Percentage()>10)	
+			else if(Percentage()<=10)	
 			{
 				cout<<"\nLIFE STEAL";
 				int heal = GetDamagePoint()*.5;
@@ -174,7 +178,7 @@ public:
 		}
 		else if(stage>=2)
 		{
-			if(Percentage()>10)
+			if(Percentage()<=10)
 			{
 			damage = GetDamagePoint() + (GetDamagePoint()*.2); 
 			cout<<"\nCRITICAL HIT";	
@@ -195,7 +199,7 @@ public:
 
 	void LevelUp()
 	{
-		SetHealth(GetMaxHealth()+(GetMaxHealth()*.2));
+		SetMaxHealth(GetMaxHealth()+(GetMaxHealth()*.2));
 		SetDamagePoint(GetDamagePoint()+(GetDamagePoint()*.2));
 		SetDefence(GetDefence()+(GetDefence()*.2));
 	}
@@ -256,7 +260,7 @@ public:
 	{
 		if(stage >= 3)
 		{
-			if(Percentage()>10)
+			if(Percentage()<=10)
 			{
 				cout<<"\nBLOCKER ACTIVATED";
 				return 0;
@@ -521,10 +525,10 @@ public:
 						PlayerReward(stage);
 						player->HealthReset();
 					}	
-			stage++;	
-			delete player;	
+			stage++;		
 			}	
 		}
+		delete player;
 	}	
 };
 
