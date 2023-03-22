@@ -12,8 +12,8 @@ At the begining of game during fight player has two options one is attack and th
 
 #SCREENSHOT
 
-![Capture1](/REPLIT/GAME 2 SCREENSHOTS/1.png)
-![Capture1](/REPLIT/GAME 2 SCREENSHOTS/2.png)
-![Capture1](/REPLIT/GAME 2 SCREENSHOTS/3.png)
-![Capture1](/REPLIT/GAME 2 SCREENSHOTS/4.png)
-![Capture1](/REPLIT/GAME 2 SCREENSHOTS/5.png)
+![Capture1](/SCREENSHOTS/1.png)
+![Capture1](/SCREENSHOTS/2.png)
+![Capture1](/SCREENSHOTS/3.png)
+![Capture1](/SCREENSHOTS/4.png)
+![Capture1](/SCREENSHOTS/5.png)
