@@ -8,6 +8,7 @@ The story line of the game is a group of Monsters came to a city and attack the 
 At the begining of game during fight player has two options one is attack and the other one is heal. After winning the first stage the player will got one map. Map will show how many stages left and some details of upcomming stage. totally there are 6 stges in this game. After winning each player will get one feature unlocked. on stage 1 player unlocks MAP , on second stage sword will unlock and increase damage points by 20% , on third stage sheild and increase defence by 20% , on fourth stage armor will unlock and increase defence by 30% , on fifth stage bow will unlock and increase damage points by 30%.
 
 
+Here is my replit link : https://replit.com/@mrabelantony/GAME-2
 
 
 #SCREENSHOT
